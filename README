@@ -1,6 +1,10 @@
 Purpose
     to make SGS3 cutomized kernel
 
+For more details, please check my blog:
+    http://blog.csdn.net/tomxue0126/article/details/8129429
+    http://blog.csdn.net/tomxue0126/article/details/8131161
+
 boot.img-SGS3
     dumped from the phone, original image: kernel+ramdisk
     to generate ramdisk.gz+kernel(original one)
