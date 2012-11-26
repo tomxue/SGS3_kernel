@@ -1,4 +1,58 @@
-SGS3_kernel
-===========
+Purpose
+    to make SGS3 cutomized kernel
 
-to make SGS3 cutomized kernel
+boot.img-SGS3
+    dumped from the phone, original image: kernel+ramdisk
+    to generate ramdisk.gz+kernel(original one)
+        $ perl split_bootimg.pl boot.img-SGS3 
+        Page size: 2048 (0x00000800)
+        Kernel size: 4417608 (0x00436848)
+        Ramdisk size: 545790 (0x000853fe)
+        Second size: 0 (0x00000000)
+        Board name: 
+        Command line: 
+        Writing boot.img-SGS3-kernel ... complete.
+        Writing boot.img-SGS3-ramdisk.gz ... complete.
+    rename boot.img-SGS3-ramdisk.gz to ramdisk.gz
+
+extend8M.cpp
+    extend the boot.img to 8M size
+    compile
+        g++ -o extend8M extend8M.cpp
+    run: assume boot.img is generated already, which is about 4~5M
+        extend8M
+
+zImage-Tom
+    the kernel image compiled by me
+
+To generate customized boot.img-Tom
+    $ ./mkbootimg --cmdline "console=null androidboot.hardware=qcom user_debug=31" --kernel zImage-Tom --ramdisk ramdisk.gz --base 0x80200000 --ramdiskaddr 0x81500000 -o ./boot.img-Tom
+
+    $ ls -al
+    total 11747
+    drwxrwxrwx 1 root root    4096 Nov 26 21:27 .
+    drwxrwxrwx 1 root root   65536 Nov 26 21:14 ..
+    -rwxrwxrwx 1 root root 8388608 Nov 26 21:17 boot.img-SGS3
+    -rwxrwxrwx 1 root root 4417608 Nov 26 21:24 boot.img-SGS3-kernel
+    -rwxrwxrwx 1 root root  545790 Nov 26 21:24 boot.img-SGS3-ramdisk.gz
+    -rwxrwxrwx 1 root root 5289984 Nov 26 21:27 boot.img-Tom
+
+To make the customized 8M boot.img-Tom
+    precondition
+        boot.img-Tom (4~5M) is already there
+
+    $ ./extend8M
+    The original length of the file is 5289984
+    tomxue@ubuntu:~/mycode/0___GitHub/SGS3_kernel$ ls -al
+    total 13264
+    drwxrwxrwx 1 root root    4096 Nov 26 21:30 .
+    drwxrwxrwx 1 root root   65536 Nov 26 21:14 ..
+    -rwxrwxrwx 1 root root 8388608 Nov 26 21:17 boot.img-SGS3
+    -rwxrwxrwx 1 root root 4417608 Nov 26 21:24 boot.img-SGS3-kernel
+    -rwxrwxrwx 1 root root  545790 Nov 26 21:24 boot.img-SGS3-ramdisk.gz
+    -rwxrwxrwx 1 root root 8388608 Nov 26 21:31 boot.img-Tom
+
+rename boot.img-Tom (8M size) to zImage
+Copy it to GT-I9300/Phone/
+Use HC-kTool Flash kernel from /sdcard/zImage
+Reboot the phone
