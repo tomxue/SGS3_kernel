@@ -7,9 +7,10 @@ int main()
     unsigned int curpos, length;
     unsigned int totalCount = 8192*1024;
     unsigned int writeCount = 0;
+    char *fname = "boot.img-Tom";
 
     FILE* fp;
-    fp=fopen("boot.img-Tom","r");
+    fp=fopen(fname,"r");
 
     if(fp==0) {
         puts("error");
@@ -21,7 +22,7 @@ int main()
     printf("The original length of the file is %d\n", length);
     fclose(fp);
 
-    fp=fopen("boot.img-Tom","ab+");
+    fp=fopen(fname,"ab+");
 
     if(fp==0) {
         puts("error");
