@@ -60,3 +60,13 @@ rename boot.img-Tom (8M size) to zImage
 Copy it to GT-I9300/Phone/
 Use HC-kTool Flash kernel from /sdcard/zImage
 Reboot the phone
+
+
+For the kernel modules:
+    adb push 1.ko /sdcard/tom
+    adb shell
+    su
+
+    cd /sdcard/tom
+    insmod 1.ko
+    dmesg
